@@ -2,20 +2,25 @@ package fr.porchet.todoBack.entity;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "todo")
 public class Todo implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "inst", nullable = false)
     private String instruction;
 
+    @Column(name = "done", nullable = false)
     private Boolean done;
 
     public Todo(String instruction, Boolean done) {
