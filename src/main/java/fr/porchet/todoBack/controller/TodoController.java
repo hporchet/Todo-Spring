@@ -65,7 +65,7 @@ public class TodoController {
     }
 
     @ExceptionHandler()
-    public String handleException(Exception ex, WebRequest request) {
-        return "Error";
+    public Exception handleException(Exception ex, WebRequest request) {
+        return ex;
     }
 }

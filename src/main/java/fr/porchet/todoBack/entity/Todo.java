@@ -23,6 +23,9 @@ public class Todo implements Serializable {
     @Column(name = "done", nullable = false)
     private Boolean done;
 
+    public Todo() {
+    }
+
     public Todo(String instruction, Boolean done) {
         this.instruction = instruction;
         this.done = done;
