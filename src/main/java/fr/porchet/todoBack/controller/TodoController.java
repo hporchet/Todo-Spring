@@ -1,13 +1,11 @@
 package fr.porchet.todoBack.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,11 +31,6 @@ public class TodoController {
         this.todoRepository = todoRepository;
     }
 
-    @GetMapping
-    public Page<Todo> getAll(@PageableDefault(size = 20) final Pageable pageable) {
-        return todoRepository.findAll(pageable);
-    }
-
     @PostMapping
     public ResponseEntity<Object> createTodo(@RequestBody Todo todo) {
         if (todo.getDone() == null) {
@@ -47,6 +40,10 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Todo> getTodo(@PathVariable("id") long id) {
+        return todoRepository.findById(id);
+    }
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable("id") long id) {
         todoRepository.deleteById(id);
@@ -56,6 +53,13 @@ public class TodoController {
     public ResponseEntity<Object> updateTodo(@RequestBody Todo todo) {
         todoRepository.save(todo);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    // --- crud list ---
+
+    @GetMapping
+    public Page<Todo> getAll(@PageableDefault(size = 20) final Pageable pageable) {
+        return todoRepository.findAll(pageable);
     }
 
     @PostMapping("/bulk")
